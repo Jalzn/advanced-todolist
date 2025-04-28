@@ -26,7 +26,6 @@ export const LoginForm = () => {
     }
 
     return (
-        <div className="flex w-screen h-screen justify-center items-center">
             <form className="flex flex-col gap-4 w-96" onSubmit={submit}>
                 {message && (
                     <p className="text-red-600 text-sm text-center bg-red-600/10 p-2 rounded">
@@ -49,6 +48,5 @@ export const LoginForm = () => {
                 />
                 <Button type="submit" variant="contained">Entrar</Button>
             </form>
-        </div>
     )
 }
