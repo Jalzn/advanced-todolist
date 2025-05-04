@@ -1,13 +1,12 @@
-import { Meteor } from "meteor/meteor";
 import React, { useState } from "react";
 
 import { Alert, AlertTitle, Button, TextField } from "@mui/material";
 
-export const TaskForm = ({ onSuccess }) => {
+export const TaskForm = ({ values, onSuccess }) => {
   const [form, setForm] = useState({
-    name: "",
-    description: "",
-    date: "",
+    name: values?.name ?? "",
+    description: values?.description ?? "",
+    date: values?.data ?? "",
   });
 
   const [isLoading, setLoading] = useState(false);
@@ -26,17 +25,12 @@ export const TaskForm = ({ onSuccess }) => {
     }
 
     setLoading(true);
-    await Meteor.callAsync("tasks.insert", {
-      ...form,
-      createdAt: new Date(),
-    });
+    onSuccess(form);
     setLoading(false);
-    onSuccess();
   };
 
   return (
     <form className="flex flex-col gap-4" onSubmit={createTask}>
-      <h2 className="text-xl text-center text-gray-700">Nova Tarefa</h2>
       {message && (
         <Alert color="error" icon={false}>
           <AlertTitle>{message}</AlertTitle>
