@@ -26,7 +26,10 @@ export const TaskForm = ({ onSuccess }) => {
     }
 
     setLoading(true);
-    await Meteor.callAsync("tasks.insert", form);
+    await Meteor.callAsync("tasks.insert", {
+      ...form,
+      createdAt: new Date(),
+    });
     setLoading(false);
     onSuccess();
   };

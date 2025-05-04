@@ -8,7 +8,9 @@ import { List } from "@mui/material";
 
 export const TasksList = () => {
   const isLoading = useSubscribe("tasks");
-  const tasks = useTracker(() => TasksCollection.find({}).fetch());
+  const tasks = useTracker(() =>
+    TasksCollection.find({}, { sort: { createdAt: -1 } }).fetch()
+  );
 
   const removeTask = async (taskId) => {
     await Meteor.callAsync("tasks.remove", taskId);
