@@ -53,7 +53,7 @@ export const TaskCard = ({ task, onRemove }) => {
       <ListItemText primary={task.name} secondary={task.description} />
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem>
-          <Link to={`"/tasks/${task._id}`}>Editar</Link>
+          <Link to={`/tasks/${task._id}`}>Editar</Link>
         </MenuItem>
         <MenuItem onClick={handleRemove}>Remover</MenuItem>
       </Menu>
