@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import { Alert, AlertTitle, Button, TextField } from "@mui/material";
 
-export const TaskForm = ({ values, onSuccess }) => {
+export const TaskForm = ({ values, disabled, onSubmit }) => {
   const [form, setForm] = useState({
     name: values?.name ?? "",
     description: values?.description ?? "",
@@ -25,7 +25,7 @@ export const TaskForm = ({ values, onSuccess }) => {
     }
 
     setLoading(true);
-    onSuccess(form);
+    onSubmit(form);
     setLoading(false);
   };
 
@@ -39,22 +39,30 @@ export const TaskForm = ({ values, onSuccess }) => {
       <TextField
         label="Nome"
         size="small"
+        disabled={disabled}
         value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
       />
       <TextField
         label="Descricao"
         size="small"
+        disabled={disabled}
         value={form.description}
         onChange={(e) => setForm({ ...form, description: e.target.value })}
       />
       <TextField
         label="Data"
         size="small"
+        disabled={disabled}
         value={form.date}
         onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
-      <Button loading={isLoading} variant="contained" type="submit">
+      <Button
+        loading={isLoading}
+        disabled={disabled}
+        variant="contained"
+        type="submit"
+      >
         Salvar
       </Button>
     </form>
