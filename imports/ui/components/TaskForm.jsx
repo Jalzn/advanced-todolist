@@ -6,7 +6,7 @@ export const TaskForm = ({ values, onSuccess }) => {
   const [form, setForm] = useState({
     name: values?.name ?? "",
     description: values?.description ?? "",
-    date: values?.data ?? "",
+    date: values?.date ?? "",
   });
 
   const [isLoading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ export const TaskForm = ({ values, onSuccess }) => {
    *
    * @param {React.FormEvent<HTMLFormElement>} e
    */
-  const createTask = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (form.name == "" || form.description == "" || form.date == "") {
@@ -30,25 +30,28 @@ export const TaskForm = ({ values, onSuccess }) => {
   };
 
   return (
-    <form className="flex flex-col gap-4" onSubmit={createTask}>
+    <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
       {message && (
         <Alert color="error" icon={false}>
           <AlertTitle>{message}</AlertTitle>
         </Alert>
       )}
       <TextField
-        placeholder="Nome"
+        label="Nome"
         size="small"
+        value={form.name}
         onChange={(e) => setForm({ ...form, name: e.target.value })}
       />
       <TextField
-        placeholder="Descricao"
+        label="Descricao"
         size="small"
+        value={form.description}
         onChange={(e) => setForm({ ...form, description: e.target.value })}
       />
       <TextField
-        placeholder="Data"
+        label="Data"
         size="small"
+        value={form.date}
         onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
       <Button loading={isLoading} variant="contained" type="submit">
