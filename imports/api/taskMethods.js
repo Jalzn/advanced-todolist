@@ -8,4 +8,7 @@ Meteor.methods({
   "tasks.remove"(_id) {
     return TasksCollection.removeAsync(_id);
   },
+  "tasks.update"({ _id, doc }) {
+    return TasksCollection.updateAsync(_id, { $set: { ...doc } });
+  },
 });
