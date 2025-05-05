@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Alert,
@@ -23,6 +23,15 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
   const [isLoading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  useEffect(() => {
+    setForm({
+      name: values?.name ?? "",
+      description: values?.description ?? "",
+      status: values?.status ?? TASK_STATUS.cadastrada,
+      date: values?.date ?? "",
+    });
+  }, [values]);
+
   /**
    *
    * @param {React.FormEvent<HTMLFormElement>} e
@@ -36,7 +45,7 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
     }
 
     setLoading(true);
-    onSubmit(form);
+    await onSubmit(form);
     setLoading(false);
   };
 

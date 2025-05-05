@@ -2,6 +2,7 @@ import {
   Alert,
   AlertTitle,
   Box,
+  Button,
   Container,
   FormControlLabel,
   FormGroup,
@@ -14,13 +15,15 @@ import { TaskForm } from "../components/TaskForm";
 import { Link, useParams } from "react-router-dom";
 import { useTracker, useSubscribe } from "meteor/react-meteor-data";
 import { TasksCollection } from "/imports/api/TasksCollection";
-import { ChevronLeft } from "@mui/icons-material";
+import { ChevronLeft, ArrowForward } from "@mui/icons-material";
 import { Meteor } from "meteor/meteor";
+import { TASK_STATUS } from "../constants/tasksConstants";
 
 export const TaskDetailsPage = () => {
   const { taskId } = useParams();
 
   const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const MODE = {
     VISUAL: 0,
@@ -37,12 +40,40 @@ export const TaskDetailsPage = () => {
   const isLoading = useSubscribe("tasks");
   const task = useTracker(() => TasksCollection.findOne({ _id: taskId }));
 
-  const updateTask = (form) => {
-    Meteor.callAsync("tasks.update", { _id: taskId, doc: form });
-    setMessage("Tarefa atualizada com sucesso.");
+  const showToast = (message) => {
+    setMessage(message);
     setTimeout(() => {
       setMessage("");
     }, 2000);
+  };
+
+  const updateTask = async (form) => {
+    await Meteor.callAsync("tasks.update", { _id: taskId, doc: form });
+    showToast("Tarefa atualizada com sucesso.");
+  };
+
+  const progressTask = async () => {
+    const statusFlow = {
+      CADASTRADA: "EM_ANDAMENTO",
+      EM_ANDAMENTO: "CONCLUIDA",
+    };
+
+    if (!task) return;
+    setLoading(true);
+
+    const nextStatus = statusFlow[task.status];
+
+    if (nextStatus) {
+      await Meteor.callAsync("tasks.update", {
+        _id: taskId,
+        doc: { ...task, status: nextStatus },
+      });
+      showToast(`Tarefa movida para ${nextStatus.replace("_", " ")}.`);
+    } else {
+      showToast("Tarefa já foi finalizada.");
+    }
+
+    setLoading(false);
   };
 
   return (
@@ -68,6 +99,19 @@ export const TaskDetailsPage = () => {
           />
         </FormGroup>
       </Box>
+      {mode === MODE.VISUAL && (
+        <Box sx={{ mb: 4, display: "flex", justifyContent: "end" }}>
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<ArrowForward />}
+            onClick={progressTask}
+            sx={{ mr: 2 }}
+          >
+            {loading ? "Carregando" : "Progredir Tarefa"}
+          </Button>
+        </Box>
+      )}
       {message && (
         <Alert sx={{ mb: 4 }}>
           <AlertTitle>{message}</AlertTitle>
