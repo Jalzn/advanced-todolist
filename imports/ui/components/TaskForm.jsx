@@ -1,11 +1,22 @@
 import React, { useState } from "react";
 
-import { Alert, AlertTitle, Button, TextField } from "@mui/material";
+import {
+  Alert,
+  AlertTitle,
+  Button,
+  FormGroup,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import { TASK_STATUS } from "../constants/tasksConstants";
 
 export const TaskForm = ({ values, disabled, onSubmit }) => {
   const [form, setForm] = useState({
     name: values?.name ?? "",
     description: values?.description ?? "",
+    status: values?.status ?? TASK_STATUS.cadastrada,
     date: values?.date ?? "",
   });
 
@@ -50,6 +61,22 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
         value={form.description}
         onChange={(e) => setForm({ ...form, description: e.target.value })}
       />
+      <FormGroup>
+        <InputLabel>Status</InputLabel>
+        <Select
+          size="small"
+          label="Status"
+          disabled={disabled}
+          value={form.status}
+          onChange={(e) => setForm({ ...form, status: e.target.value })}
+        >
+          {Object.keys(TASK_STATUS).map((key) => (
+            <MenuItem key={key} value={key}>
+              {TASK_STATUS[key]}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormGroup>
       <TextField
         label="Data"
         size="small"

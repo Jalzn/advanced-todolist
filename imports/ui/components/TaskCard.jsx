@@ -13,6 +13,7 @@ import {
   MoreVert as MoreVertIcon,
 } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { TASK_STATUS } from "../constants/tasksConstants";
 
 export const TaskCard = ({ task, onRemove }) => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,7 +51,7 @@ export const TaskCard = ({ task, onRemove }) => {
           <AssignmentIcon />
         </Avatar>
       </ListItemAvatar>
-      <ListItemText primary={task.name} secondary={task.description} />
+      <ListItemText primary={task.name} secondary={TASK_STATUS[task.status]} />
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem>
           <Link to={`/tasks/${task._id}`}>Editar</Link>
