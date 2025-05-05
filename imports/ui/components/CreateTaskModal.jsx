@@ -38,7 +38,7 @@ export const CreateTaskModal = () => {
           <h2 className="text-xl text-center text-gray-700 mb-4">
             Nova Tarefa
           </h2>
-          <TaskForm onSuccess={createTask} />
+          <TaskForm onSubmit={createTask} />
         </Box>
       </Modal>
 
