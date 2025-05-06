@@ -12,10 +12,7 @@ export const CreateTaskModal = () => {
    * @param {React.FormEvent<HTMLFormElement>} e
    */
   const createTask = async (form) => {
-    await Meteor.callAsync("tasks.insert", {
-      ...form,
-      createdAt: new Date(),
-    });
+    await Meteor.callAsync("tasks.insert", form);
 
     setShow(false);
   };

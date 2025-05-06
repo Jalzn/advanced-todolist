@@ -49,8 +49,14 @@ export const TaskDetailsPage = () => {
   };
 
   const updateTask = async (form) => {
-    await Meteor.callAsync("tasks.update", { _id: taskId, doc: form });
-    showToast("Tarefa atualizada com sucesso.");
+    try {
+      await Meteor.callAsync("tasks.update", { _id: taskId, doc: form });
+      showToast("Tarefa atualizada com sucesso.");
+    } catch (e) {
+      if (e instanceof Meteor.Error) {
+        console.log(e);
+      }
+    }
   };
 
   const progressTask = async () => {
