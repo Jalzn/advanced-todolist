@@ -79,57 +79,54 @@ export const TaskDetailsPage = () => {
 
   return (
     <>
-      <AppDrawer />
-      <Container sx={{ my: 10 }} maxWidth="md">
-        <Box
-          sx={{
-            mb: 4,
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton component={Link} to="/" sx={{ mr: 1, p: 0.5 }}>
-              <ChevronLeft fontSize="inherit" />
-            </IconButton>
-            <Typography variant="h4">Minha Tarefa</Typography>
-          </Box>
-          <FormGroup>
-            <FormControlLabel
-              label="Editar"
-              control={<Switch value={mode} onClick={toggleMode} />}
-            />
-          </FormGroup>
+      <Box
+        sx={{
+          mb: 4,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <IconButton component={Link} to="/" sx={{ mr: 1, p: 0.5 }}>
+            <ChevronLeft fontSize="inherit" />
+          </IconButton>
+          <Typography variant="h4">Minha Tarefa</Typography>
         </Box>
-        {mode === MODE.VISUAL && (
-          <Box sx={{ mb: 4, display: "flex", justifyContent: "end" }}>
-            <Button
-              variant="contained"
-              color="success"
-              startIcon={<ArrowForward />}
-              onClick={progressTask}
-              sx={{ mr: 2 }}
-            >
-              {loading ? "Carregando" : "Progredir Tarefa"}
-            </Button>
-          </Box>
-        )}
-        {message && (
-          <Alert sx={{ mb: 4 }}>
-            <AlertTitle>{message}</AlertTitle>
-          </Alert>
-        )}
-        {isLoading() || !task ? (
-          <p>Loading...</p>
-        ) : (
-          <TaskForm
-            values={task}
-            disabled={mode === MODE.VISUAL}
-            onSubmit={(form) => updateTask(form)}
+        <FormGroup>
+          <FormControlLabel
+            label="Editar"
+            control={<Switch value={mode} onClick={toggleMode} />}
           />
-        )}
-      </Container>
+        </FormGroup>
+      </Box>
+      {mode === MODE.VISUAL && (
+        <Box sx={{ mb: 4, display: "flex", justifyContent: "end" }}>
+          <Button
+            variant="contained"
+            color="success"
+            startIcon={<ArrowForward />}
+            onClick={progressTask}
+            sx={{ mr: 2 }}
+          >
+            {loading ? "Carregando" : "Progredir Tarefa"}
+          </Button>
+        </Box>
+      )}
+      {message && (
+        <Alert sx={{ mb: 4 }}>
+          <AlertTitle>{message}</AlertTitle>
+        </Alert>
+      )}
+      {isLoading() || !task ? (
+        <p>Loading...</p>
+      ) : (
+        <TaskForm
+          values={task}
+          disabled={mode === MODE.VISUAL}
+          onSubmit={(form) => updateTask(form)}
+        />
+      )}
     </>
   );
 };

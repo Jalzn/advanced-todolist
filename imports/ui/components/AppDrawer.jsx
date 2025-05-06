@@ -3,33 +3,54 @@ import { Box, Button, Divider, Drawer, Typography } from "@mui/material";
 import { Person } from "@mui/icons-material";
 import { useAuth } from "../hooks/useAuth";
 
+export const drawerWidth = 280;
+
 export const AppDrawer = () => {
   const { currentUser, logout } = useAuth();
 
   return (
-    <Drawer open={true}>
+    <Drawer
+      variant="permanent"
+      anchor="left"
+      sx={{
+        width: drawerWidth,
+        flexShrink: 0,
+        [`& .MuiDrawer-paper`]: {
+          width: drawerWidth,
+          boxSizing: "border-box",
+        },
+      }}
+    >
       <Box
         sx={{
-          width: 320,
           height: "100%",
-          padding: 2,
           display: "flex",
           flexDirection: "column",
+          justifyContent: "space-between",
+          p: 2,
         }}
       >
-        <Divider sx={{ mt: "auto" }} />
-        <Box sx={{ display: "flex", gap: 2, alignItems: "center", mt: 2 }}>
-          <Person />
-          <Typography>{currentUser.username}</Typography>
-          <Button
-            sx={{ ml: "auto" }}
-            color="warning"
-            variant="contained"
-            size="small"
-            onClick={logout}
-          >
-            Logout
-          </Button>
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            Menu
+          </Typography>
+        </Box>
+        <Box>
+          <Divider sx={{ mb: 2 }} />
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <Person />
+            <Typography sx={{ flexGrow: 1 }}>
+              {currentUser?.username}
+            </Typography>
+            <Button
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={logout}
+            >
+              Logout
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Drawer>
