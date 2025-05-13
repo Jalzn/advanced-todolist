@@ -4,7 +4,10 @@ import { useNavigate } from "react-router-dom";
 
 export const useAuth = () => {
   const navigate = useNavigate();
-  const currentUser = useTracker(() => Meteor.user());
+  const { currentUser, logginIn } = useTracker(() => ({
+    currentUser: Meteor.user(),
+    logginIn: Meteor.loggingIn(),
+  }));
 
   const isAuthenticated = !!currentUser;
 
@@ -18,6 +21,7 @@ export const useAuth = () => {
 
   return {
     currentUser,
+    logginIn,
     isAuthenticated,
     logout,
   };
