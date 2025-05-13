@@ -6,6 +6,7 @@ import { RegisterPage } from "./pages/RegisterPage";
 import { TaskDetailsPage } from "./pages/TaskDetailsPage";
 import { ProtectedRoute } from "./guards/ProtectedRoute";
 import { DashboardLayout } from "./layouts/DashboardLayout";
+import { ProfilePage } from "./pages/ProfilePage";
 
 export const App = () => {
   return (
@@ -22,6 +23,16 @@ export const App = () => {
             <ProtectedRoute>
               <DashboardLayout>
                 <HomePage />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/me"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <ProfilePage />
               </DashboardLayout>
             </ProtectedRoute>
           }
