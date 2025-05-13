@@ -4,10 +4,12 @@ import {
   Alert,
   AlertTitle,
   Button,
+  FormControlLabel,
   FormGroup,
   InputLabel,
   MenuItem,
   Select,
+  Switch,
   TextField,
 } from "@mui/material";
 import { TASK_STATUS } from "../constants/tasksConstants";
@@ -16,7 +18,8 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
   const [form, setForm] = useState({
     name: values?.name ?? "",
     description: values?.description ?? "",
-    status: values?.status ?? TASK_STATUS.cadastrada,
+    status: values?.status ?? "CADASTRADA",
+    isPrivate: values?.isPrivate ?? false,
     date: values?.date ?? "",
   });
 
@@ -27,7 +30,8 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
     setForm({
       name: values?.name ?? "",
       description: values?.description ?? "",
-      status: values?.status ?? TASK_STATUS.cadastrada,
+      status: values?.status ?? "CADASTRADA",
+      isPrivate: values?.isPrivate ?? false,
       date: values?.date ?? "",
     });
   }, [values]);
@@ -93,6 +97,18 @@ export const TaskForm = ({ values, disabled, onSubmit }) => {
         value={form.date}
         onChange={(e) => setForm({ ...form, date: e.target.value })}
       />
+      <FormGroup>
+        <FormControlLabel
+          label="A tarefa e pessoal?"
+          control={
+            <Switch
+              disabled={disabled}
+              checked={form.isPrivate}
+              onChange={() => setForm({ ...form, isPrivate: !form.isPrivate })}
+            />
+          }
+        />
+      </FormGroup>
       <Button
         loading={isLoading}
         disabled={disabled}

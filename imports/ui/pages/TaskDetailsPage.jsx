@@ -83,6 +83,8 @@ export const TaskDetailsPage = () => {
     setLoading(false);
   };
 
+  console.log(task);
+
   return (
     <>
       <Box

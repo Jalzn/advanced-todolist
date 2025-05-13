@@ -1,12 +1,14 @@
 import { Meteor } from "meteor/meteor";
 import { TasksCollection } from "./TasksCollection";
+import { check } from "meteor/check";
 
 Meteor.methods({
   "tasks.insert"(doc) {
     check(doc, {
-      title: String,
+      name: String,
       description: String,
       status: String,
+      isPrivate: Boolean,
       date: String,
     });
 
@@ -21,10 +23,11 @@ Meteor.methods({
     });
   },
 
-  "tasks.remove"(_id) {
+  async "tasks.remove"(_id) {
     check(_id, String);
 
-    const task = TasksCollection.findOne(_id);
+    const task = TasksCollection.findOneAsync(_id);
+
     if (!task) {
       throw new Meteor.Error("Task not found");
     }
@@ -36,11 +39,12 @@ Meteor.methods({
     return TasksCollection.removeAsync(_id);
   },
 
-  "tasks.update"({ _id, doc }) {
+  async "tasks.update"({ _id, doc }) {
     check(_id, String);
     check(doc, Object);
 
-    const task = TasksCollection.findOne(_id);
+    const task = await TasksCollection.findOneAsync(_id);
+
     if (!task) {
       throw new Meteor.Error("Task not found");
     }
