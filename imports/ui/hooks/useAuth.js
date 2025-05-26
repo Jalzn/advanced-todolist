@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export const useAuth = () => {
   const navigate = useNavigate();
   const { currentUser, logginIn } = useTracker(() => ({
-    currentUser: { profile: {}, ...Meteor.user() },
+    currentUser: Meteor.user(),
     logginIn: Meteor.loggingIn(),
   }));
 
@@ -20,7 +20,7 @@ export const useAuth = () => {
   };
 
   return {
-    currentUser,
+    currentUser: { profile: {}, ...currentUser },
     logginIn,
     isAuthenticated,
     logout,
